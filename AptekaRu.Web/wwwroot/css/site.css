@@ -1,0 +1,262 @@
+:root {
+    --width-li-radio-item: 150px;
+    --height-li-radio-item: 30px;
+
+}
+
+html body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+/* Header */
+header ul {
+    display: flex;
+    Justify-content: flex-start;
+    align-items: center;
+    background: #2b2a33;
+    height: 10vh;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin: 0 15px;
+    color: white;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: lightgray;
+}
+
+.logo {
+    font-size: 30pt;
+}
+
+/* footer */
+footer ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: end;
+    background: #2b2a33;
+    height: 5vh;
+}
+
+.container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5vh;
+}
+
+.bottom-item {
+    font-size: 9pt;
+}
+
+.bottom-menu {
+    display: flex;
+    align-items: center;
+}
+
+/* input schema */
+.form-schema-input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center
+}
+
+.input-item {
+    border: 2px solid #2b2a33;
+    border-radius: 5px;
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
+/* disable arrow top/botton */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.input-item:focus {
+    outline: none;
+    border: 2px solid #a0a0a0;
+}
+
+.button-item {
+    width: 80px;
+    margin-left: 30px;
+    background: #2b2a33;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.button-item:hover {
+    color: lightgray;
+}
+
+/* table selection */
+.form-tables-input {
+    display: table-row;
+    margin-top: 50px;
+}
+
+.radio-item {
+    width: var(--width-li-radio-item);
+    height: var(--height-li-radio-item);
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    background: #2b2a33;
+    will-change: transform;
+}
+
+.radio-item input {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.radio-item:hover {
+    background: #a0a0a0;
+}
+
+.radio-item input:checked + label {
+    border-radius: inherit;
+    background: #a0a0a0;
+}
+
+li input {
+    width: inherit;
+    height: inherit;
+    margin: 0;
+}
+
+.form-ul-input {
+    margin-left: 20px;
+}
+
+@media (max-width: 490px) {
+    .logo {
+        font-size: 15pt;
+    }
+
+    .header-logo-menu {
+        font-size: 9pt;
+    }
+
+    .radio-item {
+        font-size: 9pt;
+    }
+}
+
+.radio-item-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    height: inherit;
+}
+
+/* crud operation menu */
+
+.crud-button {
+    width: var(--width-li-radio-item);
+    height: var(--height-li-radio-item);
+    background: #2b2a33;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+
+.crud-button:hover {
+    color: lightgray;
+}
+
+.crud-operation-menu {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 5px;
+    margin-top: 15px;
+    padding: 5px;
+}
+
+/* table */
+table {
+    margin: 5px;
+    background: #2b2a33;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #2b2a33;
+    border-radius: 5px;
+    color: white;
+}
+
+.input-item-column {
+    height: 25px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #2b2a33;
+}
+
+
+.input-column, .input-item-th {
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.input-attr {
+    display: flex;
+    justify-content: center;
+}
+
+.button-item-send {
+    margin: 5px;
+    width: 80px;
+    padding: 5px;
+    background: #2b2a33;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.button-item-send:hover {
+    color: lightgray;
+}
+
+.fix-button-right {
+    display: grid;
+    justify-items: right;
+}
+
+.container-sb {
+    display: flex;
+    justify-content: space-between;
+}

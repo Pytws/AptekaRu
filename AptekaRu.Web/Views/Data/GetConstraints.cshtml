@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ConstraintInfo>
+
+
+@if (Model.Count() == 0 || Model.Count() >= 2)
+{
+    await Html.RenderPartialAsync("_MessageV1Partial", "This table is not supported by the application");
+}
+else
+{
+    string placeholder = "Enter the " + Model.ElementAt(0).ColumnName + " type " + Model.ElementAt(0).DataType;
+    string type = Model.ElementAt(0).DataType == "integer" ? "number" : "text";
+    string controllerAction = ViewBag.operation == "update" ? "UpdateIs" : "DeleteIs";
+    string method = ViewBag.operation == "update" ? "get" : "post";
+
+    <div>
+        <form class="form-schema-input" method="@method" asp-controller="Data" asp-action="@controllerAction">
+            <input class="input-item" type="@type" name="identifier" placeholder="@placeholder" required pattern="\S+" />
+            <input type="hidden" name="@nameof(ViewBag.schemaName)" value="@ViewBag.schemaName" />
+            <input type="hidden" name="@nameof(ViewBag.tableName)" value="@ViewBag.tableName" />
+            <input type="hidden" name="@nameof(ViewBag.operation)" value="@ViewBag.operation" />
+            <button class="button-item">OK</button>
+        </form>
+    </div>    
+}

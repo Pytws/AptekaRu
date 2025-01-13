@@ -1,0 +1,23 @@
+﻿@model IEnumerable<TableInfo>
+
+
+<div>
+    <form class="form-tables-input" method="get" asp-controller="Data">
+        <ul class="form-ul-input">
+            @foreach (var table in Model)
+            {
+                <li class="radio-item">
+                    <input id="@table.TableName" type="radio" name="tableName" value="@table.TableName" />
+                    <label class="radio-item-label" for="@table.TableName">@table.TableName</label>
+                </li>
+            }
+            <div class="crud-operation-menu">
+                <input type="hidden" name="schemaName" value="@ViewBag.schemaName" />
+                <button class="crud-button" formaction="Create" value="create">Create</button>
+                <button class="crud-button" formaction="Read" value="read">Read</button>
+                <button class="crud-button" formaction="GetConstraints" name="operation" value="update">Update</button>
+                <button class="crud-button" formaction="GetConstraints" name="operation" value="delete">Delete</button>
+            </div>
+        </ul>
+    </form>
+</div>

@@ -1,0 +1,11 @@
+AptekaRu.Dal/bin/
+AptekaRu.Dal/obj/
+AptekaRu.Dal/.vs/
+
+AptekaRu.Web/bin/
+AptekaRu.Web/obj/
+AptekaRu.Web/.vs/
+AptekaRu.Web/published/
+AptekaRu.Web/appsettings.Development.json
+
+*.user

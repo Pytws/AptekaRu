@@ -1,0 +1,71 @@
+﻿@model TableModel
+
+
+@if (Model.columnsValue is not null)
+{
+    
+    using var columnsInfo = Model.columnsInfo.GetEnumerator();
+    using var columnsValue = Model.columnsValue.GetEnumerator();
+    
+    <div class="input-attr">
+        <form method="post" asp-controller="Data" asp-action="UpdateIs">
+            <div class="fix-button-right">
+                <table>
+                    <thead>
+                        <tr class="input-row">
+                            <th class="input-item-th"><span>Column name</span></th>
+                            <th class="input-item-th"><span>Data type</span></th>
+                            <th class="input-item-th"><span>Is nullable</span></th>
+                            <th class="input-item-th"><span>Maximum length</span></th>
+                            <th class="input-item-th"><span>You input</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @while (columnsInfo.MoveNext() && columnsValue.MoveNext())
+                        {
+                            <tr class="input-row">
+                                <td class="input-column">@columnsInfo.Current.ColumnName</td>
+                                <td class="input-column">@columnsInfo.Current.DataType</td>
+                                <td class="input-column">@columnsInfo.Current.IsNullable</td>
+                                <td class="input-column">@columnsInfo.Current.CharacterMaximumLength</td>
+                                <td class="input-column">
+                                    @{
+                                        List<string> integersTypePG = ["smallint", "integer", "bigint"];
+                                        List<string> realTypePG = ["real", "double precision", "numeric"];
+                                        var type = "text";
+                                        var step = "";
+                                        if (integersTypePG.Contains(@columnsInfo.Current.DataType))
+                                        {
+                                            type = "number";
+                                            step = "1";
+                                        }
+                                        else if (realTypePG.Contains(@columnsInfo.Current.DataType))
+                                        {
+                                            type = "number";
+                                            step = "any";
+                                        }
+                                    }
+
+                                    <input class="input-item-column"
+                                           type="@type"
+                                           step="@step"
+                                           name=@columnsInfo.Current.ColumnName
+                                           @(@columnsInfo.Current.IsNullable == "NO" ? "required" : "") 
+                                           value="@columnsValue.Current.Value"/>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" name="@nameof(ViewBag.schemaName)" value="@ViewBag.schemaName" required />
+                <input type="hidden" name="@nameof(ViewBag.tableName)" value="@ViewBag.tableName" required />
+                <input type="hidden" name="@nameof(ViewBag.identifier)" value="@ViewBag.identifier" required />
+                <button class="button-item-send">Send</button>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    await Html.RenderPartialAsync("_MessageV1Partial", "Entity with such id not found");
+}

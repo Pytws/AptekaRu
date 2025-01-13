@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="@Url.Content("~/css/site.css")">
+</head>
+<body>
+    <header>
+        <div>
+            <ul>
+                <li><a class="logo" href="/Data">AptekaRu</a></li>
+            </ul>
+        </div>
+        <div>
+            <form class="form-schema-input" method="get" asp-controller="Data" asp-action="GetTables">
+                <input class="input-item" type="text" name="schemaName" placeholder="Enter the schema*" required pattern="\S+"/>
+                <button class="button-item">OK</button>
+            </form>
+        </div>
+    </header>
+    <div>
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+    <footer>
+        <div class="container">
+            <ul class="bottom-menu">
+                <li class="bottom-item">
+                    <span>© 2025 AptekaRu</span>
+                </li>
+                <li class="bottom-item">
+                    <span>@DateTime.Now</span>
+                </li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<IDictionary<string, object>>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/Read.js"></script>
+
+<input id="schemaName" type="hidden" value="@ViewBag.schemaName" />
+<input id="tableName" type="hidden" value="@ViewBag.tableName" />
+
+@{
+    string style = "";
+}
+
+<div class="input-attr">
+    <div>
+        <table>
+            <thead>
+                <tr class="input-row">
+                    @if (Model.Count() != 0)
+                    {
+                        @foreach (var th in Model.ElementAt(0))
+                        {
+                            <th class="input-item-th"><span>@th.Key</span></th>
+                        }
+                    }
+                    else
+                    {
+                        <th class="input-column">Not found items</th>
+
+                        
+                        style = "display: none;";
+
+                    }
+                </tr>
+            </thead>
+            <tbody id="data-content">
+                @foreach (var rows in Model)
+                {
+                    <tr class="input-row">
+                        @foreach (var item in rows)
+                        {
+                            <td class="input-column">@item.Value</td>             
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="container-sb">
+            <button style="@style" id="PreviousButton" class="button-item-send">Previous</button>
+            <button style="@style" id="NextButtom" class="button-item-send">Next</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ColumnInfo>
+
+<div class="input-attr">
+    <form method="post" asp-controller="Data" asp-action="CreateIs">
+        <div class="fix-button-right">
+            <table>
+                <thead>
+                    <tr class="input-row">
+                        <th class="input-item-th"><span>Column name</span></th>
+                        <th class="input-item-th"><span>Data type</span></th>
+                        <th class="input-item-th"><span>Is nullable</span></th>
+                        <th class="input-item-th"><span>Maximum length</span></th>
+                        <th class="input-item-th"><span>You input</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var column in Model)
+                    {
+                        <tr class="input-row">
+                            <td class="input-column">@column.ColumnName</td>
+                            <td class="input-column">@column.DataType</td>
+                            <td class="input-column">@column.IsNullable</td>
+                            <td class="input-column">@column.CharacterMaximumLength</td>
+                            <td class="input-column">
+                                @{
+                                    List<string> integersTypePG = ["smallint", "integer", "bigint"];
+                                    List<string> realTypePG = ["real", "double precision", "numeric"];
+                                    var type = "text";
+                                    var step = "";
+                                    if (integersTypePG.Contains(column.DataType))
+                                    {
+                                        type = "number";
+                                        step = "1";
+                                    }
+                                    else if (realTypePG.Contains(column.DataType))
+                                    {
+                                        type = "number";
+                                        step = "any";
+                                    }
+                                }
+
+                                <input class="input-item-column" 
+                                        type="@type"
+                                        step="@step"
+                                        name=@column.ColumnName
+                                        @(column.IsNullable == "NO" ? "required" : "") />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="hidden" name="@nameof(ViewBag.schemaName)" value="@ViewBag.schemaName" />
+            <input type="hidden" name="@nameof(ViewBag.tableName)" value="@ViewBag.tableName" />
+            <button class="button-item-send">Send</button>
+        </div>
+    </form>
+</div>
