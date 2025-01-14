@@ -15,14 +15,16 @@ namespace AptekaRu.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            var connectionString = ( builder.Environment.IsProduction() ?
+                builder.Configuration.GetValue<string>("CONNECTIONS_STRING") :
+                builder.Configuration.GetConnectionString("DefaultConnection") ) ??
+                throw new NullReferenceException();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Configuration.AddUserSecrets<Program>().Build();
-
-            builder.Services.AddTransient<IDbConnection>(sp =>
-                new NpgsqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
@@ -44,16 +46,12 @@ namespace AptekaRu.Web
 
             builder.Services.AddTransient<IAptekaruRepository, AptekaruRepository>(sp =>
             {
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                    throw new NullReferenceException();
                 var logger = sp.GetRequiredService<ILogger<AptekaruRepository>>();
                 return new AptekaruRepository(connectionString, logger);
             });
 
             builder.Services.AddTransient<IRenderTable, RenderTable>(sp =>
             {
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                    throw new NullReferenceException();
                 var logger = sp.GetRequiredService<ILogger<RenderTable>>();
                 return new RenderTable(connectionString, logger);
             });
