@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AptekaRu.Web", "AptekaRu.Web.csproj", "{F0B0D85A-CBDD-4B08-B985-A6FFFC63AC02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AptekaRu.Web", "AptekaRu.Web\AptekaRu.Web.csproj", "{F0B0D85A-CBDD-4B08-B985-A6FFFC63AC02}"
 	ProjectSection(ProjectDependencies) = postProject
 		{25A0CCC7-6606-455A-B243-21997877856D} = {25A0CCC7-6606-455A-B243-21997877856D}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AptekaRu.DAL", "..\AptekaRu.DAL\AptekaRu.DAL.csproj", "{25A0CCC7-6606-455A-B243-21997877856D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AptekaRu.DAL", "AptekaRu.DAL\AptekaRu.DAL.csproj", "{25A0CCC7-6606-455A-B243-21997877856D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
