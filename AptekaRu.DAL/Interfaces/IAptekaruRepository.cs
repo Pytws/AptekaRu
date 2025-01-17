@@ -14,6 +14,6 @@ namespace AptekaRu.DAL.Interfaces
         Task<IDictionary<string, object>?> GetById(string schemaName, string tableName, int identifier, string identifierName);
         Task<IDictionary<string, object>?> GetByGuid(string schemaName, string tableName, Guid identifier, string identifierName);
         Task<bool> Update(object model, string schemaName, string tableName, ConstraintInfo constraintInfo, string identifier);
-        Task<bool> Delete(string schemaName, string tableName, ConstraintInfo constraintInfo, string identifier);
+        Task<int> Delete(string schemaName, string tableName, ConstraintInfo constraintInfo, string identifier);
     }
 }

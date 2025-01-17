@@ -117,15 +117,15 @@ namespace AptekaRu.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> Delete(string schemaName, string tableName, ConstraintInfo constraintInfo, string identifier)
+        public async Task<int> Delete(string schemaName, string tableName, ConstraintInfo constraintInfo, string identifier)
         {
             var query = $"DELETE FROM {schemaName}.{tableName} WHERE {constraintInfo.ColumnName} = {identifier}";
 
             using var connection = new NpgsqlConnection(connectionString);
 
-            await connection.ExecuteAsync(query);
+            logger.LogInformation($"Executing query: {query}");
 
-            return true;
+            return await connection.ExecuteAsync(query);
         }
     }
 }

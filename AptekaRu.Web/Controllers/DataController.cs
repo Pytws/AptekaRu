@@ -278,10 +278,17 @@ namespace AptekaRu.Web.Controllers
             if (!isGuid && !isInt) return View("_MessageV1Partial", "identifier must be integer or guid");
 
             var constraintInfo = await renderTable.GetConstraintInfo(schemaName, tableName, ConstraintType.PrimaryKey);
+            try
+            {
+                var rowsAffected = await aptekaruRepository.Delete(schemaName, tableName, constraintInfo.ElementAt(0), identifier);
+                if (rowsAffected > 0) return View("_MessageV1Partial", $"Entity removed by id: {identifier}");
+                return View("_MessageV1Partial", $"There is no such entity, id: {identifier}");
+            }
+            catch (PostgresException e) when (e.SqlState == "23503")
+            {
 
-            await aptekaruRepository.Delete(schemaName, tableName, constraintInfo.ElementAt(0), identifier);
-
-            return View("_MessageV1Partial", $"Entity removed by id: {identifier}");
+                return View("_MessageV1Partial", $"The entity is related to the employees table, id: {identifier}");
+            }
         }
     }
 }
