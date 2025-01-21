@@ -1,0 +1,131 @@
+version: '3.8'
+
+x-postgres-common:
+  &postgres-common
+  image: postgres:17-alpine
+  user: postgres
+  restart: always
+  healthcheck:
+    test: 'pg_isready -U postgres --dbname=postgres'
+    interval: 10s
+    timeout: 5s
+    retries: 5
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/16
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+  monitoring:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 178.168.255.0/24
+
+services:
+  web_asp_net:
+    container_name: web_asp_net
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      frontend:
+        ipv4_address: 192.168.0.3
+      backend:
+    env_file:
+      - .env
+    depends_on:
+      - pg_master
+      
+  pg_master:
+    <<: *postgres-common
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: aptekaru
+      POSTGRES_PASSWORD: password
+    networks:
+      backend:
+        ipv4_address: 10.10.0.2
+        aliases:
+          - pg_master
+    command: |
+      postgres 
+      -c listen_addresses='localhost, 10.10.0.2'
+      -c wal_level=replica 
+      -c hot_standby=on 
+      -c max_wal_senders=2 
+      -c max_replication_slots=2 
+      -c hot_standby_feedback=on
+      -c hba_file=/etc/postgresql/pg_hba.conf
+    volumes:
+      - ./postgresql/master/init/replica_setting.sql:/docker-entrypoint-initdb.d/replica_setting.sql
+      - ./postgresql/master/init/aptekaru_dump.sql:/docker-entrypoint-initdb.d/aptekaru_dump.sql
+      - ./postgresql/master/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf
+
+  pg_replica:
+    <<: *postgres-common
+    environment:
+      PGUSER: replicator
+      PGPASSWORD: password
+    networks:
+      backend:
+        ipv4_address: 10.10.1.2
+        aliases:
+          - pg_replica
+    command:
+      - "/bin/bash"
+      - "/etc/postgresql/initdb.sh"
+    volumes:
+      - ./postgresql/replica/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./postgresql/replica/scripts/initdb.sh:/etc/postgresql/initdb.sh
+    depends_on:
+      - pg_master
+      
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    ports:
+      - "127.0.0.1:6060:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      monitoring:
+        ipv4_address: 178.168.255.2
+        aliases:
+          - pgadmin
+      backend:
+    depends_on:
+      - pg_master
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      monitoring:
+        ipv4_address: 178.168.255.3
+        aliases:
+          - grafana
+      backend:
+    depends_on:
+      - pg_master
+
+volumes:
+  pgadmin_data:
+    driver: local
+  grafana_data:
+    driver: local

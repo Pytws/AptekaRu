@@ -9,5 +9,5 @@ AptekaRu.Web/published/
 AptekaRu.Web/appsettings.Development.json
 
 .vs
-
+.env
 *.user
