@@ -64,7 +64,7 @@ services:
       -c hot_standby_feedback=on
       -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
-      - ./postgresql/master/init/replica_setting.sql:/docker-entrypoint-initdb.d/replica_setting.sql
+      - ./postgresql/master/init/init_user.sql:/docker-entrypoint-initdb.d/init_user.sql
       - ./postgresql/master/init/aptekaru_dump.sql:/docker-entrypoint-initdb.d/aptekaru_dump.sql
       - ./postgresql/master/conf/pg_hba.conf:/etc/postgresql/pg_hba.conf
 
